@@ -4,3 +4,8 @@ export type Register = {
   password: string;
   jwt: string;
 };
+
+export type Login = {
+  email: string;
+  password: string;
+};

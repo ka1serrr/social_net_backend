@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { register } from "../services";
-import createError from "http-errors";
+import { register, login } from "../services";
 
 class AuthController {
   register = async (req: Request, res: Response, next: NextFunction) => {
@@ -13,9 +12,26 @@ class AuthController {
       });
     } catch (e) {
       console.log(e);
-      res.status(401).json({
+      res.status(500).json({
         message: "Internal server error",
-        status: 401,
+        status: 500,
+      });
+    }
+  };
+
+  login = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await login(req.body);
+      res.status(200).json({
+        status: true,
+        message: "Successful login",
+        data: user,
+      });
+    } catch (e) {
+      console.log(e);
+      res.status(500).json({
+        message: "Internal server error",
+        status: 500,
       });
     }
   };

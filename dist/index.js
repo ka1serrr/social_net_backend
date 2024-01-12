@@ -11,7 +11,7 @@ const app = (0, express_1.default)();
 dotenv_1.default.config();
 const port = process.env.PORT;
 app.use(body_parser_1.default.json());
-app.use("/", authRoute_1.router);
+app.use("/auth", authRoute_1.router);
 app.listen(port, () => {
     console.log(`server run on start ${port}`);
 });

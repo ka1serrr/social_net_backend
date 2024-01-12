@@ -9,7 +9,7 @@ dotenv.config();
 const port = process.env.PORT;
 
 app.use(bodyParser.json());
-app.use("/", authRouter);
+app.use("/auth", authRouter);
 
 app.listen(port, () => {
   console.log(`server run on start ${port}`);

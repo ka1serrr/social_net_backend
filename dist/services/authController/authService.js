@@ -3,10 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = void 0;
+exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma_1 = __importDefault(require("../../models/prisma"));
 const helpers_1 = require("../../helpers");
+const http_errors_1 = __importDefault(require("http-errors"));
 class AuthService {
     async register(data) {
         data.password = bcryptjs_1.default.hashSync(data.password, 8);
@@ -16,7 +17,23 @@ class AuthService {
         data.jwt = await (0, helpers_1.generateToken)(user);
         return data;
     }
+    async login(data) {
+        const { email, password } = data;
+        const user = await prisma_1.default.user.findUnique({
+            where: {
+                email,
+            },
+        });
+        if (!user) {
+            throw http_errors_1.default.NotFound("User is not registered");
+        }
+        const checkPassword = bcryptjs_1.default.compareSync(password, user.password);
+        if (!checkPassword)
+            throw http_errors_1.default.Unauthorized("Email or password is incorrect");
+        const jwt = await (0, helpers_1.generateToken)(user);
+        return { ...user, jwt };
+    }
 }
 const authController = new AuthService();
-exports.register = authController.register;
+exports.register = authController.register, exports.login = authController.login;
 //# sourceMappingURL=authService.js.map

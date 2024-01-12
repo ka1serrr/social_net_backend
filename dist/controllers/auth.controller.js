@@ -15,9 +15,26 @@ class AuthController {
             }
             catch (e) {
                 console.log(e);
-                res.status(401).json({
+                res.status(500).json({
                     message: "Internal server error",
-                    status: 401,
+                    status: 500,
+                });
+            }
+        };
+        this.login = async (req, res, next) => {
+            try {
+                const user = await (0, services_1.login)(req.body);
+                res.status(200).json({
+                    status: true,
+                    message: "Successful login",
+                    data: user,
+                });
+            }
+            catch (e) {
+                console.log(e);
+                res.status(500).json({
+                    message: "Internal server error",
+                    status: 500,
                 });
             }
         };
