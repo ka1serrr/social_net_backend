@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.login = exports.register = void 0;
+exports.all = exports.login = exports.register = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const prisma_1 = __importDefault(require("../../models/prisma"));
 const helpers_1 = require("../../helpers");
@@ -33,7 +33,10 @@ class AuthService {
         const jwt = await (0, helpers_1.generateToken)(user);
         return { ...user, jwt };
     }
+    async all() {
+        return await prisma_1.default.user.findMany();
+    }
 }
 const authController = new AuthService();
-exports.register = authController.register, exports.login = authController.login;
+exports.register = authController.register, exports.login = authController.login, exports.all = authController.all;
 //# sourceMappingURL=authService.js.map

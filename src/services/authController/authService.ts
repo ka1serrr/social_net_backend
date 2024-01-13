@@ -34,8 +34,11 @@ class AuthService {
 
     return { ...user, jwt };
   }
+  async all() {
+    return await prisma.user.findMany();
+  }
 }
 
 const authController = new AuthService();
 
-export const { register, login } = authController;
+export const { register, login, all } = authController;

@@ -38,6 +38,22 @@ class AuthController {
                 });
             }
         };
+        this.all = async (req, res, next) => {
+            try {
+                const users = await (0, services_1.all)();
+                res.status(200).json({
+                    status: true,
+                    message: "Successfully got data",
+                    data: users,
+                });
+            }
+            catch (e) {
+                res.status(500).json({
+                    message: "Internal server error",
+                    status: 500,
+                });
+            }
+        };
     }
 }
 exports.authController = new AuthController();

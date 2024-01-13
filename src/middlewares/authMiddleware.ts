@@ -1,12 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import createError from "http-errors";
 import jwt from "jsonwebtoken";
-import { User } from "../types";
+import { User, UserWithRequest } from "../types";
 
-interface RequestInterface extends Request {
-  user: User;
-}
-export const authCheckMiddleware = (req: RequestInterface, res: Response, next: NextFunction) => {
+export const authCheckMiddleware = (req: UserWithRequest, res: Response, next: NextFunction) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
