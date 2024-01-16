@@ -6,4 +6,4 @@ export const router = new Router();
 
 router.post("/register", authController.register);
 router.post("/login", authController.login);
-router.get("/users", authCheckMiddleware, permit("ADMIN"), authController.all);
+router.get("/users", authCheckMiddleware, authController.all);

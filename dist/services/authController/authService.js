@@ -33,8 +33,11 @@ class AuthService {
         const jwt = await (0, helpers_1.generateToken)(user);
         return { ...user, jwt };
     }
-    async all() {
-        return await prisma_1.default.user.findMany();
+    async all(page = "1", limit = "30") {
+        return prisma_1.default.user.paginate().withPages({
+            limit: Number(limit),
+            page: Number(page),
+        });
     }
 }
 const authController = new AuthService();

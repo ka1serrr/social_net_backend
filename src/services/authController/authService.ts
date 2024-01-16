@@ -34,8 +34,11 @@ class AuthService {
 
     return { ...user, jwt };
   }
-  async all() {
-    return await prisma.user.findMany();
+  async all(page: string = "1", limit: string = "30") {
+    return prisma.user.paginate().withPages({
+      limit: Number(limit),
+      page: Number(page),
+    });
   }
 }
 

@@ -10,7 +10,7 @@ class AuthController {
                 res.status(200).json({
                     status: true,
                     message: "User created successfully",
-                    data: user,
+                    user,
                 });
             }
             catch (e) {
@@ -27,7 +27,7 @@ class AuthController {
                 res.status(200).json({
                     status: true,
                     message: "Successful login",
-                    data: user,
+                    user,
                 });
             }
             catch (e) {
@@ -40,11 +40,13 @@ class AuthController {
         };
         this.all = async (req, res, next) => {
             try {
-                const users = await (0, services_1.all)();
+                const { page, limit } = req.query;
+                const [users, meta] = await (0, services_1.all)(page, limit);
                 res.status(200).json({
                     status: true,
                     message: "Successfully got data",
                     data: users,
+                    meta: meta,
                 });
             }
             catch (e) {
